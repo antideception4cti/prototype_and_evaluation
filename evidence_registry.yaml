@@ -1,4 +1,4 @@
-# ADI Evidence Taxonomy — executable registry for the current evidence model.
+# Anti-Deception Evidence Taxonomy - executable registry for the current evidence model.
 # The parser INTERPRETS this file. No intent is inferred; every observation is
 # evidence with an explicit strength and an epistemic_status that the telemetry
 # layer can actually support.
