@@ -1,0 +1,2 @@
+{"ts": 1, "actor": "attacker", "action_type": "view_metadata", "object_id": "role_remote_service_backup", "is_decoy": true, "fields_accessed": ["owner", "created_days_ago", "naming_scheme", "members"]}
+{"ts": 2, "actor": "attacker", "action_type": "abort", "object_id": "role_remote_service_backup", "is_decoy": true, "outcome": "aborted"}

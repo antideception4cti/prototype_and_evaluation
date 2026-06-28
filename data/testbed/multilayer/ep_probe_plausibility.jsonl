@@ -1,0 +1,2 @@
+{"ts": 1, "actor": "attacker", "action_type": "view_metadata", "object_id": "decoy_document", "is_decoy": true, "fields_accessed": ["owner", "last_used_days_ago", "naming_scheme"]}
+{"ts": 2, "actor": "attacker", "action_type": "suppress", "object_id": "decoy_document", "is_decoy": true, "outcome": "suppressed"}

@@ -1,0 +1,2 @@
+{"ts": 1, "actor": "attacker", "action_type": "delay", "object_id": "login_endpoint", "is_decoy": false, "fields_accessed": ["timing"]}
+{"ts": 2, "actor": "attacker", "action_type": "retry", "object_id": "login_endpoint", "is_decoy": false, "outcome": "no_follow_up"}

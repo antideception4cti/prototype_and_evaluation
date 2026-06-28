@@ -1,0 +1,6 @@
+{"ts": 1, "actor": "attacker", "action_type": "environment_check", "object_id": "endpoint", "is_decoy": false, "fields_accessed": ["hostname", "os_release"]}
+{"ts": 2, "actor": "attacker", "action_type": "fingerprint", "object_id": "ssh_service", "is_decoy": false, "fields_accessed": ["protocol_banner", "kex"]}
+{"ts": 3, "actor": "attacker", "action_type": "enumerate", "object_id": "role_catalog", "is_decoy": false}
+{"ts": 4, "actor": "attacker", "action_type": "view_metadata", "object_id": "role_remote_service_backup", "is_decoy": true, "fields_accessed": ["owner", "created_days_ago", "naming_scheme", "members"]}
+{"ts": 5, "actor": "attacker", "action_type": "abort", "object_id": "role_remote_service_backup", "is_decoy": true, "outcome": "aborted"}
+{"ts": 6, "actor": "attacker", "action_type": "use", "object_id": "role_remote_service_primary", "is_decoy": false, "outcome": "success"}

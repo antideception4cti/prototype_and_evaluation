@@ -1,0 +1,1 @@
+{"ts": 1, "actor": "admin", "action_type": "environment_check", "object_id": "asset_inventory", "is_decoy": false, "fields_accessed": ["hostname"]}

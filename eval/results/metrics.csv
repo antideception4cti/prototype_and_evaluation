@@ -1,0 +1,6 @@
+class,n,tp,fp,tn,fn,tpr,tnr,fpr,precision,f1
+R1_multistage_env_probe,20,10,0,10,0,1.000,1.000,0.000,1.000,1.000
+E3a_honeypot_probe,20,10,0,10,0,1.000,1.000,0.000,1.000,1.000
+R3_plausibility_then_suppress,30,10,0,20,0,1.000,1.000,0.000,1.000,1.000
+R2_breadcrumb_traversal,30,10,0,20,0,1.000,1.000,0.000,1.000,1.000
+R4_decoy_avoidance,30,10,0,20,0,1.000,1.000,0.000,1.000,1.000

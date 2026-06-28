@@ -1,0 +1,117 @@
+[
+  {
+    "name": "cyberlab",
+    "sessions": 24896360,
+    "status": {
+      "none": 24624260,
+      "weak_context": 269473,
+      "observed_marker": 74,
+      "weak_proxy": 2553
+    },
+    "streams": {
+      "baseline": 15257190,
+      "attack_interaction": 9636617,
+      "combined": 2553
+    },
+    "families": {
+      "E3b": 23296822,
+      "E5a": 13254,
+      "E1b": 260108,
+      "E2": 242543,
+      "M1": 91090,
+      "E4": 10,
+      "E1a": 2553,
+      "E5b": 14
+    },
+    "patterns": {
+      "baseline|none|-": 1568927,
+      "attack_interaction|none|E3b": 9344937,
+      "baseline|none|E3b": 13688263,
+      "attack_interaction|none|-": 22017,
+      "attack_interaction|weak_context|E3b+E5": 2135,
+      "attack_interaction|weak_context|E5": 8583,
+      "attack_interaction|weak_context|E1b+E3b": 15218,
+      "attack_interaction|weak_context|E1b+E5": 2,
+      "attack_interaction|weak_context|E1b": 9,
+      "attack_interaction|weak_context|E1b+E2+E3b": 151505,
+      "attack_interaction|weak_context|E1b+E2+E3b+E5+M": 74,
+      "attack_interaction|weak_context|E1b+E3b+E5+M": 3,
+      "attack_interaction|weak_context|E1b+E2+E3b+E4+M": 2,
+      "attack_interaction|weak_context|E1b+E3b+E5": 1020,
+      "attack_interaction|weak_context|E1b+E2+E3b+M": 90837,
+      "attack_interaction|weak_context|E1b+E3b+M": 27,
+      "attack_interaction|observed_marker|E2+E3b": 33,
+      "attack_interaction|observed_marker|E2+E3b+E5+M": 21,
+      "combined|weak_proxy|E1a+E1b+E3b+R": 1,
+      "combined|weak_proxy|E1a+E3b": 1199,
+      "attack_interaction|observed_marker|E2+E3b+E5": 11,
+      "attack_interaction|none|E3b+M": 116,
+      "attack_interaction|weak_context|E1b+E2+E3b+E5": 58,
+      "combined|weak_proxy|E1a+E1b+E3b+E5+R": 1351,
+      "combined|weak_proxy|E1a+E1b+E2+E3b+E5+M+R": 1,
+      "attack_interaction|observed_marker|E3b+E4+E5+M": 5,
+      "attack_interaction|observed_marker|E3b+E4+M": 3,
+      "attack_interaction|observed_marker|E2+E3b+M": 1,
+      "combined|weak_proxy|E1a+E3b+E5+R": 1
+    },
+    "has_ad": 2553,
+    "errors": [
+      "cyberlab: one compressed input was truncated/bad gzip; readable prefix was processed and the run continued"
+    ]
+  },
+  {
+    "name": "GlobalSSH",
+    "sessions": 47569,
+    "status": {
+      "weak_context": 7482,
+      "none": 40004,
+      "weak_proxy": 83
+    },
+    "streams": {
+      "attack_interaction": 26793,
+      "baseline": 20693,
+      "combined": 83
+    },
+    "families": {
+      "E1b": 7205,
+      "E3b": 44483,
+      "E2": 5,
+      "E5a": 443,
+      "E1a": 83
+    },
+    "patterns": {
+      "attack_interaction|weak_context|E1b+E3b": 7117,
+      "baseline|none|E3b": 18044,
+      "attack_interaction|none|E3b": 19225,
+      "baseline|none|-": 2649,
+      "attack_interaction|weak_context|E1b+E2+E3b": 5,
+      "attack_interaction|weak_context|E5": 351,
+      "attack_interaction|none|-": 86,
+      "attack_interaction|weak_context|E3b+E5": 9,
+      "combined|weak_proxy|E1a+E1b+E3b+E5+R": 83
+    },
+    "has_ad": 83,
+    "errors": []
+  },
+  {
+    "name": "pandacap_disk",
+    "sessions": 63,
+    "status": {
+      "none": 63
+    },
+    "streams": {
+      "baseline": 29,
+      "attack_interaction": 34
+    },
+    "families": {},
+    "patterns": {},
+    "has_ad": 0,
+    "pandacap_classes": {
+      "Brute-force/login only": 29,
+      "Outlaw/Dota persistence": 27,
+      "ZIGAZAGA loader": 5,
+      "Recon/commands only": 2
+    },
+    "errors": []
+  }
+]

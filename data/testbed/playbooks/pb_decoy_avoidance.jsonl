@@ -1,0 +1,3 @@
+{"ts": 1, "actor": "attacker", "action_type": "enumerate", "object_id": "role_catalog", "is_decoy": false}
+{"ts": 2, "actor": "attacker", "action_type": "view_metadata", "object_id": "role_remote_service_backup", "is_decoy": true, "fields_accessed": ["owner", "created_days_ago", "naming_scheme", "members"]}
+{"ts": 3, "actor": "attacker", "action_type": "use", "object_id": "role_remote_service_primary", "is_decoy": false, "outcome": "success"}

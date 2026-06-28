@@ -1,0 +1,1 @@
+{"ts": 1, "actor": "attacker", "action_type": "enumerate", "object_id": "catalog_root", "is_decoy": false, "fields_accessed": ["display_name"]}

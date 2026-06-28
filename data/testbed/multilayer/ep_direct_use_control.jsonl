@@ -1,0 +1,1 @@
+{"ts": 1, "actor": "attacker", "action_type": "use", "object_id": "decoy_account", "is_decoy": true, "outcome": "login_attempt"}

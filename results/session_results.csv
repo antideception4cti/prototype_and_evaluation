@@ -1,0 +1,14 @@
+dataset,session_id,epistemic_status,has_anti_deception,signal_stream,decoy_interaction,families,relations_fired,off_ladder,direct_signal
+testbed_playbooks,pb_adaptation,none,False,baseline,False,-,-,-,connection_or_protocol_observation
+testbed_playbooks,pb_benign_recon,weak_context,False,baseline,False,E1b,-,-,connection_or_protocol_observation
+testbed_playbooks,pb_decoy_avoidance,testbed_grounded,True,combined,True,D0+E4,R4_counterfactual_avoidance,-,object_interaction
+testbed_playbooks,pb_direct_use,none,False,attack_interaction,True,D0,-,direct_deception_interaction,object_interaction
+testbed_playbooks,pb_env_validation,weak_context,False,baseline,False,E1b,-,-,connection_or_protocol_observation
+testbed_playbooks,pb_fingerprint,weak_proxy,True,anti_deception,False,E3a,-,-,connection_or_protocol_observation
+testbed_playbooks,pb_lowrisk_probe,none,False,baseline,False,-,-,-,connection_or_protocol_observation
+testbed_playbooks,pb_plausibility_suppress,sequence_supported,True,combined,True,D0+E4,R3_post_check_suppression,direct_deception_interaction,object_interaction
+testbed_multilayer,ep_benign_recon,weak_context,False,baseline,False,E1b,-,-,connection_or_protocol_observation
+testbed_multilayer,ep_breadcrumb_traversal,sequence_supported,True,combined,True,D0+E4,R2_decoy_traversal,-,object_interaction
+testbed_multilayer,ep_direct_use_control,none,False,attack_interaction,True,D0,-,direct_deception_interaction,object_interaction
+testbed_multilayer,ep_probe_plausibility,sequence_supported,True,combined,True,D0+E4,R3_post_check_suppression,direct_deception_interaction,object_interaction
+testbed_multilayer,ep_vm_aware_avoidance,testbed_grounded,True,combined,True,D0+E1b+E3a+E4,R1_multistage_probe+R3_post_check_suppression+R4_counterfactual_avoidance,-,object_interaction

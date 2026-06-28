@@ -1,0 +1,86 @@
+\begin{table*}[!t]
+\centering
+\caption{ADI evidence roles, observable evidence, source basis, and evidential role.}
+\label{tab:adi-evidence-model}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}[l,l,c,c,c]{p{0.04\textwidth}p{0.12\textwidth}p{0.64\textwidth}p{0.08\textwidth}p{0.07\textwidth}}
+\hline
+\textbf{ADI} &
+\textbf{Desc.} &
+\textbf{Observable evidence} &
+\textbf{Source basis} &
+\textbf{Evid. role} \\
+\hline
+
+\textbf{D} &
+Direct decoy interaction &
+Decoy credential use; decoy file/document access; decoy token, URL, or callback hit; login to a known decoy account; access to a known decoy service or database entry. &
+\cite{mitre_d3fend_decoy_object,mitre_d3fend_decoy_file,mitre_d3fend_decoy_user_credential,mitre_d3fend_decoy_session_token,reti2020rabbit,cowrie} &
+Direct \\
+
+\textbf{E1a} &
+Specific environment checks &
+VM, hypervisor, debugger, or analysis-tool checks; virtualization-specific hardware/system queries; targeted reads of \texttt{/proc}, \texttt{/sys}, \texttt{/etc/os-release}, drivers, modules, process lists, or filesystem paths when tied to analysis or deception artifacts. &
+\cite{mitre_attack_t1497_001,afianian2019malware,uitto2017survey} &
+Proxy \\
+
+\textbf{E1b} &
+Generic host reconnaissance &
+\texttt{whoami}, \texttt{id}, \texttt{uname}, \texttt{hostname}, \texttt{pwd}, \texttt{df}, \texttt{free}, \texttt{ps}, \texttt{ifconfig}, \texttt{ip addr}, \texttt{netstat}, \texttt{lscpu}, \texttt{lsb\_release}, generic \texttt{/proc} reads. &
+\cite{cowrie} &
+Weak \\
+
+\textbf{E2} &
+Human presence/environment age &
+Browser history, cache/cookies, typed URLs, bookmarks, downloads, recent files, event logs, shell history, DNS/ARP cache, user-activity traces, process count, uptime, install-age, or update traces. &
+\cite{miramirkhani2017spotless,mitre_attack_t1497_002,afianian2019malware} &
+Proxy \\
+
+\textbf{E3a} &
+Active protocol fingerprinting &
+Malformed SSH version strings; unusual KEX behavior; SSH/Telnet/HTTP edge cases; invalid or boundary protocol messages; static responses; limited negotiation; disconnect behavior; response timing under crafted probes. &
+\cite{vetterl2018bitter,srinivasa2023gotta,uitto2017survey,chaudhry2026review} &
+Proxy \\
+
+\textbf{E3b} &
+Protocol fingerprint metadata &
+HASSH/HASSHServer; SSH banners or idstrings; host keys; SSH algorithm lists; TLS certificate subject/issuer; JA3-like metadata where available; service/version banners. &
+\cite{dulaunoy2022ssh,hassh,srinivasa2023gotta} &
+Meta \\
+
+\textbf{E4} &
+Artifact/structural plausibility &
+\texttt{stat}, \texttt{ls -la}, owner/group/permissions, timestamps, file size, checksum/hash checks, directory depth/content, document/reference consistency, empty or implausible folders; account or role examples only as enterprise/testbed extensions. &
+\cite{reti2020rabbit,aggarwal2021decoys,miramirkhani2017spotless} &
+Derived \\
+
+\textbf{E5} &
+Operational constraint context &
+\texttt{wget}, \texttt{curl}, \texttt{scp}, DNS lookup, ping/ICMP, outbound connection attempts, failed downloads, missing tools, restricted shell messages, permission denied, failed execution, parser/emulation stress, repeated syntax edge cases. &
+\cite{uitto2017survey,chaudhry2026review,miramirkhani2017spotless,cowrie} &
+Weak \\
+
+\vspace{1mm}
+\textbf{R} &
+Relation-supported evidence &
+Multistage probe sequences; protocol probe followed by related metadata collection; decoy document to embedded credential use; decoy file to URL/token hit; decoy credential to decoy account login; check to exit, delay, or behavior change; controlled decoy/non-decoy selection. &
+\cite{srinivasa2023gotta,reti2020rabbit,afianian2019malware,miramirkhani2017spotless,mitre_attack_t1497,aggarwal2021decoys} &
+Rel. \\
+
+\textbf{M} &
+Modifiers &
+Sleep/delay, timing/latency, idle time, session duration, command count, command diversity, payload download depth, exploit/persistence depth, revisit frequency, repeated sessions. &
+\cite{mitre_attack_t1497_003,afianian2019malware,uitto2017survey,pittman2020taxonomy,pittman2020primer} &
+Mod. \\
+
+\hline
+\end{tabular}
+
+\vspace{1mm}
+\begin{minipage}{0.98\textwidth}
+\scriptsize
+\emph{Note.} Evidential role abbreviations: Direct = direct deception interaction context; Proxy = source-grounded proxy for anti-deception-relevant behavior; Weak = weak contextual telemetry only; Meta = technical metadata for CTI correlation; Derived = derived operationalization requiring additional assumptions or instrumentation; Rel. = relation-supported or testbed-grounded evidence; Mod. = modifier that can adjust confidence or actionability but cannot independently establish ADI.
+\end{minipage}
+\end{table*}

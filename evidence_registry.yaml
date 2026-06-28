@@ -1,0 +1,138 @@
+# ADI Evidence Taxonomy — executable registry for the current evidence model.
+# The parser INTERPRETS this file. No intent is inferred; every observation is
+# evidence with an explicit strength and an epistemic_status that the telemetry
+# layer can actually support.
+taxonomy_version: adi-evidence-current
+
+# Conceptual role layer used in the paper and in the CTI object builder.
+# The executable families below are deliberately slightly more granular: D0 maps to D,
+# E5a/E5b map to E5, M1/M2 map to M, and R1-R4 map to R.
+conceptual_roles:
+  D:  {name: Direct decoy interaction, evidential_role: Direct, boundary: Direct deception telemetry, but not anti-deception behavior by itself.}
+  E1a: {name: Specific environment checks, evidential_role: Proxy, boundary: Source-grounded proxy; often requires telemetry beyond standard Cowrie logs.}
+  E1b: {name: Generic host reconnaissance, evidential_role: Weak, boundary: Weak context only; must not raise anti-deception confidence alone.}
+  E2: {name: Human presence / environment age, evidential_role: Proxy, boundary: Source-grounded for endpoint or testbed telemetry; shell-only approximations are derived.}
+  E3a: {name: Active protocol fingerprinting, evidential_role: Proxy, boundary: Requires handshake, packet capture, or raw-response visibility.}
+  E3b: {name: Protocol fingerprint metadata, evidential_role: Meta, boundary: Metadata only; supports correlation, not active anti-deception behavior by itself.}
+  E4: {name: Artifact / structural plausibility, evidential_role: Derived, boundary: Derived but plausible; IAM/account/role plausibility requires testbed or domain support.}
+  E5: {name: Operational constraint context, evidential_role: Weak, boundary: Weak/contextual only; often normal workflow or operational failure.}
+  R: {name: Relation-supported evidence, evidential_role: Rel., boundary: Requires actor/session linkage, temporal order, or controlled ground truth.}
+  M: {name: Modifiers, evidential_role: Mod., boundary: Can adjust confidence/actionability but cannot independently establish anti-deception.}
+
+# Controlled vocabulary for epistemic_status. Two kinds:
+#  - ladder statuses (anti-deception strength), comparable via rank below
+#  - off-ladder tags (descriptive; not a strength claim)
+epistemic_status:
+  ladder:                      # rank: higher = stronger anti-deception evidence
+    not_supported: 0
+    observed_marker: 1
+    weak_context: 1
+    weak_proxy: 2
+    sequence_supported: 3
+    strong_proxy: 3
+    testbed_grounded: 4
+  off_ladder:                  # pass-through tags, never capped as "strength"
+    - technical_fingerprint    # E3b: implementation fingerprint, never anti-deception by itself
+    - direct_deception_interaction   # D0 alone: touched a decoy, not anti-deception
+    - feedback_signal          # M2 engagement depth
+    - cautious_derived         # derived [D] markers (IAM/file operationalisations)
+
+# Telemetry profiles cap the achievable ladder status and declare which families
+# are observable. THIS is the formal home of "Cowrie cannot reach strong".
+telemetry_profiles:
+  cowrie_shell:
+    observable_families: [E1a, E1b, E2, E3a, E3b, E4, E5a, E5b, M1, M2]
+    max_ladder_rank: 2          # weak_proxy ceiling; E3b passes as off-ladder technical_fingerprint
+    note: emulated shell honeypot. Emulation-detection (E3a honeypot-name/static) CAN fire; deep host families (E1a/E2) are mostly behaviourally absent.
+  honeypot_pcap:
+    observable_families: [E3a, E3b, E5a, M1, M2]
+    max_ladder_rank: 3          # strong_proxy via R1 multistage probe
+    note: raw packet capture (e.g. PANDAcap pcap, RIoTPot). Active protocol probes become observable.
+  full_system:
+    observable_families: [E1a, E1b, E2, E3a, E3b, E4, E5a, E5b, M1, M2]
+    max_ladder_rank: 3          # strong_proxy; E1a/E2 are genuinely observable here
+    note: full-system trace (PANDAcap rr/qcow). Endpoint families E1a/E2 observable via syscalls/filesystem.
+  decoy_instrumented:
+    observable_families: [D0, E4, M2]
+    max_ladder_rank: 3          # sequence_supported via R2 (partial ground truth)
+    note: decoy/honeytoken deployment with known decoy graph (e.g. Koney).
+  testbed:
+    observable_families: [D0, E1a, E1b, E2, E3a, E3b, E4, E5a, E5b, M1, M2]
+    max_ladder_rank: 4          # testbed_grounded; only place R4 (avoidance) is provable
+    note: moderated environment with matched decoy/baseline pairs and full ground truth.
+
+# ---------------------------------------------------------------------------
+# FAMILIES. axis: environment | object | modifier.
+#   alone_status     = epistemic_status when the family fires with no qualifying relation
+#   promoted_status  = status when its promote_relation fires AND that relation's
+#                      mandatory fields are satisfied
+# ---------------------------------------------------------------------------
+families:
+  D0:  {axis: object,      strength: medium,      alone_status: direct_deception_interaction, promote_relation: R2_decoy_traversal, promoted_status: sequence_supported}
+  E1a: {axis: environment, strength: strong,      alone_status: weak_proxy,      promote_relation: R1_multistage_probe, promoted_status: strong_proxy}
+  E1b: {axis: environment, strength: weak,        alone_status: weak_context,    promote_relation: R1_multistage_probe, promoted_status: weak_proxy}
+  E2:  {axis: environment, strength: strong,      alone_status: observed_marker, promote_relation: R1_multistage_probe, promoted_status: weak_proxy}
+  E3a: {axis: environment, strength: strong,      alone_status: weak_proxy,      promote_relation: R1_multistage_probe, promoted_status: strong_proxy}
+  E3b: {axis: environment, strength: fingerprint, alone_status: technical_fingerprint, promote_relation: null, promoted_status: technical_fingerprint}
+  E4:  {axis: object,      strength: medium,      alone_status: observed_marker, promote_relation: R2_decoy_traversal, promoted_status: weak_proxy}
+  E5a: {axis: environment, strength: weak,        alone_status: weak_context,    promote_relation: R1_multistage_probe, promoted_status: weak_proxy}
+  E5b: {axis: environment, strength: weak,        alone_status: weak_context,    promote_relation: R1_multistage_probe, promoted_status: weak_proxy}
+  M1:  {axis: modifier,    strength: modifier,    alone_status: feedback_signal, promote_relation: null, promoted_status: feedback_signal}
+  M2:  {axis: modifier,    strength: modifier,    alone_status: feedback_signal, promote_relation: null, promoted_status: feedback_signal}
+
+# ---------------------------------------------------------------------------
+# MARKERS. regex over commands -> marker_group -> family. Only the shell/host
+# observable subset is defined here; pcap/protocol markers arrive via facts
+# (client_version_count, client_kex_count) and the pcap adapter.
+# Order is preserved but families, not order, drive the result.
+# ---------------------------------------------------------------------------
+markers:
+  - {id: e1b_sysinfo,      family: E1b, pattern: '(^|[;&|`\s])(uname|hostname|whoami|id|groups|nproc|lscpu|lsb_release)(\s|$)|cat\s+/etc/(os-release|issue)|cat\s+/proc/(cpuinfo|meminfo|version)|(^|\s)(free|df)(\s|$)'}
+  - {id: e2_presence_weak, family: E2,  pattern: '(^|[;&|`\s])(w|who|users|last|lastlog)(\s|$)'}
+  - {id: e2_wear_tear,     family: E2,  pattern: '(cat|ls|stat|head|tail|wc)\b[^\n]*(\.bash_history|\.ash_history|\.zsh_history|\.viminfo|/var/log/(wtmp|btmp|lastlog|auth\.log|syslog))|find\s+[^\n]*-mtime'}
+  - {id: e1a_vm_check,     family: E1a, pattern: '\b(systemd-detect-virt|dmidecode|lspci|lsmod)\b|cat\s+/proc/1/cgroup|/sys/class/dmi/id/(product_name|sys_vendor|board_vendor)|dmesg[^\n]*(virt|vmware|virtualbox|qemu|kvm|xen)'}
+  - {id: e3a_honeypot_name,family: E3a, pattern: '\b(cowrie|kippo|honeypot|honeyd|tpot|t-pot|dionaea|conpot|glastopf)\b'}
+  - {id: e4_file_meta,     family: E4,  pattern: '\bstat\s+|ls\s+-[a-z]*l[a-z]*\s+/home(/|\s|$)|\b(chage\s+-l|passwd\s+-S|getent\s+passwd)\b'}
+  - {id: e5a_capability,   family: E5a, pattern: '\b(which|command\s+-v|type)\s+(wget|curl|tftp|python|python3|perl|nc|netcat|busybox)\b|(^|\s)busybox(\s|$)'}
+  - {id: e5a_egress,       family: E5a, pattern: '\b(curl|wget|tftp)\b[^\n]*(https?|ftp)://|\b(ping|dig|nslookup|host)\b'}
+  - {id: e5b_parser_stress,family: E5b, pattern: '(\|\s*){4,}|[\x00-\x08]|\$\{[^}]*\$\{'}
+  - {id: m1_timing,        family: M1,  pattern: '(^|[;&|`\s])(sleep|uptime|date)(\s|$)|\bping\b[^\n]*-c\s*\d{2,}'}
+
+# ---------------------------------------------------------------------------
+# RELATIONS. Each has REQUIRED fields; if absent, the relation is not_supported
+# (never inferred). R3 is never inferred from absence. R4 is testbed-only.
+# ---------------------------------------------------------------------------
+relations:
+  R1_multistage_probe:
+    promotes: [E1a, E1b, E2, E3a, E5a, E5b]
+    requires: [same_actor, event_order, multiple_distinct_families_or_probes]
+    emits: sequence_supported
+  R2_decoy_traversal:
+    promotes: [D0, E4]
+    requires: [decoy_graph, known_reference_relation, same_actor]
+    emits: sequence_supported
+  R3_post_check_suppression:
+    promotes: [E1a, E1b, E2, E3a, E4, E5a]
+    requires: [preceding_check, suppression_evidence, payload_visibility, observation_window, same_actor]
+    emits: sequence_supported
+    never_from_absence: true
+  R4_counterfactual_avoidance:
+    promotes: [D0]
+    requires: [comparable_object, ground_truth, exposure_evidence, same_actor, full_event_order, counterfactual_avoidance]
+    testbed_only: true
+    emits: testbed_grounded
+
+# ---------------------------------------------------------------------------
+# GLOBAL RULES (hard gates applied before aggregation).
+# ---------------------------------------------------------------------------
+global_rules:
+  - id: e3b_never_standalone_antideception
+    description: E3b fingerprint is always technical_fingerprint, never counted as anti-deception strength.
+  - id: d0_alone_is_interaction
+    description: D0 without R2 is direct_deception_interaction, never anti-deception by itself.
+  - id: modifiers_never_standalone
+    description: M1/M2 are feedback_signal only; they never establish anti-deception on their own.
+  - id: r3_no_absence_inference
+    description: A check followed by no payload is NOT evidence unless payload_visibility proves the payload stage was observable and the adapter provides explicit suppression_evidence, such as an aborted action or matched post-check suppression marker. Otherwise emit observed_absence/not_supported.
+  - id: r4_testbed_only
+    description: Counterfactual avoidance requires a comparable non-decoy twin with exposure evidence; emit only under the testbed profile.

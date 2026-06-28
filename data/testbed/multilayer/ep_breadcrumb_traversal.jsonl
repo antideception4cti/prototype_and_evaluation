@@ -1,0 +1,2 @@
+{"ts": 1, "actor": "attacker", "action_type": "view_metadata", "object_id": "decoy_document", "is_decoy": true, "fields_accessed": ["owner", "created_days_ago"]}
+{"ts": 2, "actor": "attacker", "action_type": "view_metadata", "object_id": "decoy_embedded_credential", "is_decoy": true, "fields_accessed": ["owner", "members"]}
